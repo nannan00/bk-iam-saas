@@ -101,6 +101,7 @@ class ResourceProviderClient:
             "Content-Type": "application/json",
             "Request-Id": self.request_id,
             "Blueking-Language": get_bk_language(translation.get_language()),
+            "X-Bk-Tenant-Id": local.request_tenant_id,
         }
         self.http_auth = _generate_http_auth(auth_info)
         self.timeout = 30
