@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-TencentBlueKing is pleased to support the open source community by making 蓝鲸智云-权限中心(BlueKing-IAM) available.
+TencentBlueKing is pleased to support the open source community by making 蓝鲸智云 - 权限中心 (BlueKing-IAM) available.
 Copyright (C) 2017-2021 THL A29 Limited, a Tencent company. All rights reserved.
 Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License.
 You may obtain a copy of the License at http://opensource.org/licenses/MIT
@@ -30,7 +30,7 @@ adapter = requests.adapters.HTTPAdapter(
 session.mount("https://", adapter)
 session.mount("http://", adapter)
 
-# 用户管理，分页的默认数量为1000（实际最大可支持2000）
+# 用户管理，分页的默认数量为 1000（实际最大可支持 2000）
 USERMGR_DEFAULT_PAGE_SIZE = 1000
 
 # 超时时间
@@ -39,20 +39,22 @@ USERMGR_DEFAULT_TIMEOUT = 60
 
 def list_category() -> List[Dict]:
     """获取目录列表"""
-
-    def list_paging_category(page: int, page_size: int) -> Tuple[int, List[Dict]]:
-        """[分页]获取目录列表"""
-        url_path = "/api/c/compapi/v2/usermanage/list_categories/"
-        params = {
-            "fields": "id,display_name",
-            "ordering": "id",
-            "page": page,
-            "page_size": page_size,
-        }
-        data = _call_esb_api(http_get, url_path, data=params, timeout=USERMGR_DEFAULT_TIMEOUT, request_session=session)
-        return data["count"], data["results"]
-
-    return list_all_data_by_paging(list_paging_category, USERMGR_DEFAULT_PAGE_SIZE)
+    return []
+    # def list_paging_category(page: int, page_size: int) -> Tuple[int, List[Dict]]:
+    #     """[分页] 获取目录列表"""
+    #     url_path = "/api/c/compapi/v2/usermanage/list_categories/"
+    #     params = {
+    #         "fields": "id,display_name",
+    #         "ordering": "id",
+    #         "page": page,
+    #         "page_size": page_size,
+    #     }
+    #     data = _call_esb_api(
+    #         http_get, url_path, data=params, timeout=USERMGR_DEFAULT_TIMEOUT, request_session=session
+    #     )
+    #     return data["count"], data["results"]
+    #
+    # return list_all_data_by_paging(list_paging_category, USERMGR_DEFAULT_PAGE_SIZE)
 
 
 def retrieve_user(username, fields: str = "id,username,display_name,staff_status,category_id") -> Dict:
@@ -72,7 +74,7 @@ def list_new_user(end_utc_time: datetime.datetime, minute_delta: int = 0) -> Lis
     fuzzy_lookups = ",".join(create_time_fuzzy_lookups)
 
     def list_paging_new_user(page: int, page_size: int) -> Tuple[int, List[Dict]]:
-        """[分页]获取新增用户列表"""
+        """[分页] 获取新增用户列表"""
         url_path = "/api/c/compapi/v2/usermanage/list_users/"
         params = {
             "fields": "id,username,display_name,staff_status,category_id",
@@ -92,7 +94,7 @@ def list_profile() -> List[Dict]:
     """获取用户列表"""
 
     def list_paging_profile(page: int, page_size: int) -> Tuple[int, List[Dict]]:
-        """[分页]获取用户列表"""
+        """[分页] 获取用户列表"""
         url_path = "/api/c/compapi/v2/usermanage/list_users/"
         params = {
             "fields": "id,username,display_name,staff_status,category_id",
@@ -110,7 +112,7 @@ def list_department() -> List[Dict]:
     """获取部门列表"""
 
     def list_paging_department(page: int, page_size: int) -> Tuple[int, List[Dict]]:
-        """[分页]获取部门列表"""
+        """[分页] 获取部门列表"""
         url_path = "/api/c/compapi/v2/usermanage/list_departments/"
         params = {"fields": "id,name,category_id,parent,order", "ordering": "id", "page": page, "page_size": page_size}
         data = _call_esb_api(http_get, url_path, data=params, timeout=USERMGR_DEFAULT_TIMEOUT, request_session=session)
@@ -123,7 +125,7 @@ def list_department_profile() -> List[Dict]:
     """获取部门与用户关系列表"""
 
     def _list_paging_department_profile(page: int, page_size: int) -> Tuple[int, List[Dict]]:
-        """[分页]获取部门与用户关系列表"""
+        """[分页] 获取部门与用户关系列表"""
         url_path = "/api/c/compapi/v2/usermanage/list_edges_department_profile/"
         params = {"ordering": "id", "page": page, "page_size": page_size}
         data = _call_esb_api(http_get, url_path, data=params, timeout=USERMGR_DEFAULT_TIMEOUT, request_session=session)
@@ -133,10 +135,10 @@ def list_department_profile() -> List[Dict]:
 
 
 def list_profile_leader() -> List[Dict]:
-    """获取用户Leader列表"""
+    """获取用户 Leader 列表"""
 
     def _list_paging_profile_leader(page: int, page_size: int) -> Tuple[int, List[Dict]]:
-        """[分页]获取用户Leader列表"""
+        """[分页] 获取用户 Leader 列表"""
         url_path = "/api/c/compapi/v2/usermanage/list_edges_leader_profile/"
         params = {"ordering": "id", "page": page, "page_size": page_size}
         data = _call_esb_api(http_get, url_path, data=params, timeout=USERMGR_DEFAULT_TIMEOUT, request_session=session)
