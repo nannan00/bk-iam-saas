@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-TencentBlueKing is pleased to support the open source community by making 蓝鲸智云-权限中心(BlueKing-IAM) available.
+TencentBlueKing is pleased to support the open source community by making 蓝鲸智云 - 权限中心 (BlueKing-IAM) available.
 Copyright (C) 2017-2021 THL A29 Limited, a Tencent company. All rights reserved.
 Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License.
 You may obtain a copy of the License at http://opensource.org/licenses/MIT
@@ -62,6 +62,8 @@ class Action(BaseModel):
     related_environments: List[RelatedEnvironment] = []
     sensitivity: int = 1
 
+    tenant_id: str = ""
+
     def __init__(self, **data: Any):
         if "related_actions" in data and data["related_actions"] is None:
             data["related_actions"] = []
@@ -95,13 +97,13 @@ def _filter_error_instance_selection(
     system_id: str, resource_type_id: str, selections: List[InstanceSelection]
 ) -> List[InstanceSelection]:
     """
-    过滤错误的实例视图: 实例视图中不能存在资源类型id相同但是system_id不同的资源类型
+    过滤错误的实例视图：实例视图中不能存在资源类型 id 相同但是 system_id 不同的资源类型
     """
     checked_selections: List[InstanceSelection] = []
 
     resource_type_system: Dict[str, str] = {}
     for selection in selections:
-        # 检验实例视图节点不存在类型id一样, 系统id不一样的情况
+        # 检验实例视图节点不存在类型 id 一样，系统 id 不一样的情况
         for node in selection.resource_type_chain:
             if node.id in resource_type_system and resource_type_system[node.id] != node.system_id:
                 logger.error(

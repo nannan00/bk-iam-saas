@@ -15,7 +15,6 @@ from pydantic.fields import Field
 from pydantic.main import BaseModel
 from pydantic.tools import parse_obj_as
 
-from backend.common.cache import cachedmethod
 from backend.common.error_codes import error_codes
 from backend.service.action import ActionList, ActionService
 from backend.service.constants import ACTION_ALL, SensitivityLevel
@@ -122,7 +121,8 @@ class ActionBiz:
     resource_type_svc = ResourceTypeService()
     policy_svc = PolicyQueryService()
 
-    @cachedmethod(timeout=1 * 60)  # 缓存 1 分钟
+    # FIXME(nan): 这里添加缓存后，会导致不同租户的操作列表混乱
+    # @cachedmethod(timeout=1 * 60)  # 缓存 1 分钟
     def list(self, system_id: str) -> ActionBeanList:
         actions = self.action_svc.list(system_id)
         action_list = ActionBeanList(parse_obj_as(List[ActionBean], actions))

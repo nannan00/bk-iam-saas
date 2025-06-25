@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-TencentBlueKing is pleased to support the open source community by making 蓝鲸智云-权限中心(BlueKing-IAM) available.
+TencentBlueKing is pleased to support the open source community by making 蓝鲸智云 - 权限中心 (BlueKing-IAM) available.
 Copyright (C) 2017-2021 THL A29 Limited, a Tencent company. All rights reserved.
 Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License.
 You may obtain a copy of the License at http://opensource.org/licenses/MIT
@@ -15,6 +15,7 @@ from pydantic import parse_obj_as
 
 from backend.apps.approval.models import ActionProcessRelation
 from backend.common.cache import cachedmethod
+from backend.common.local import local
 from backend.component import iam
 
 from .models import Action
@@ -33,28 +34,36 @@ class ActionList:
 
 
 class ActionService:
-    """Action相关查询与操作"""
+    """Action 相关查询与操作"""
 
     full_fields = (
         "id,name,name_en,related_resource_types,version,type,hidden,description,description_en,"
-        "related_actions,related_environments,sensitivity"
+        "related_actions,related_environments,sensitivity,tenant_id"
     )
 
     @cachedmethod(timeout=60)
-    def list(self, system_id: str) -> List[Action]:
-        """获取系统的Action列表"""
+    def _list(self, system_id: str) -> List[Action]:
+        """获取系统的 Action 列表"""
         actions = iam.list_action(system_id, fields=self.full_fields)
         return parse_obj_as(List[Action], actions)
 
+    def list(self, system_id: str) -> List[Action]:
+        """
+        获取系统的 Action 列表
+        """
+        actions = self._list(system_id)
+        tenant_id = local.request_tenant_id
+        return [a for a in actions if not a.tenant_id or a.tenant_id == tenant_id]
+
     def get(self, system_id: str, action_id: str) -> Action:
         """
-        获取Action
+        获取 Action
         """
         return Action.parse_obj(iam.get_action(system_id, action_id))
 
     def new_action_list(self, system_id: str) -> ActionList:
         """
-        生成ActionList
+        生成 ActionList
         """
         return ActionList(self.list(system_id))
 

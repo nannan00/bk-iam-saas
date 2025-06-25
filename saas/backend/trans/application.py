@@ -100,8 +100,8 @@ class ApplicationDataTrans:
             for c in policy.list_resource_type_instance_count():
                 if c.count > settings.APPLY_POLICY_ADD_INSTANCES_LIMIT:
                     # 如果实例选择模式是 instance:paste, 则不需要校验
-                    resource_type = action.get_related_resource_type(c.system_id, c.type)
-                    if resource_type.selection_mode == SelectionMode.INSTANCE_PASTE.value:
+                    resource_type = action.get_related_resource_type(c.system_id, c.type) if action else None
+                    if resource_type is None or resource_type.selection_mode == SelectionMode.INSTANCE_PASTE.value:
                         continue
 
                     raise error_codes.VALIDATE_ERROR.format(
