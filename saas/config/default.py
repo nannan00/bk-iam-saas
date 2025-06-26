@@ -92,6 +92,7 @@ INSTALLED_APPS = [
     "backend.apps.handover",
     "backend.apps.mgmt",
     "backend.apps.temporary_policy",
+    "backend.apps.tenant",
     "backend.api.authorization",
     "backend.api.admin",
     "backend.api.management",
