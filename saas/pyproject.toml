@@ -44,7 +44,7 @@ dependencies = [
     'pyinstrument (==3.1.3)',
     'redis (==5.0.3)',
     'django-redis (==5.2.0)',
-    'apigw-manager (==3.0.2)',
+    "apigw-manager (==4.1.0)",
     'typing-extensions (==4.12.2)',
     'opentelemetry-api (==1.29.0)',
     'opentelemetry-sdk (==1.29.0)',

@@ -20,7 +20,9 @@ RUN apt-get update && apt-get install -y gcc libssl-dev default-libmysqlclient-d
 ENV LC_ALL=C.UTF-8 \
     LANG=C.UTF-8
 
-RUN pip install --upgrade pip setuptools
+RUN pip install --upgrade pip
+# Note: setuptools > 80.8.0 will issue pkg_resources warnings when executing Python-related commands.
+RUN pip install setuptools==80.8.0
 
 WORKDIR /app
 

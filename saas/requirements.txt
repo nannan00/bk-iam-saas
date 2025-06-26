@@ -1,6 +1,6 @@
 aenum==2.2.6 ; python_full_version >= "3.11.10" and python_version < "3.12"
 amqp==5.3.1 ; python_full_version >= "3.11.10" and python_version < "3.12"
-apigw-manager==3.0.2 ; python_full_version >= "3.11.10" and python_version < "3.12"
+apigw-manager==4.1.0 ; python_full_version >= "3.11.10" and python_version < "3.12"
 asgiref==3.8.1 ; python_full_version >= "3.11.10" and python_version < "3.12"
 billiard==3.6.4.0 ; python_full_version >= "3.11.10" and python_version < "3.12"
 bk-audit==1.2.2 ; python_full_version >= "3.11.10" and python_version < "3.12"

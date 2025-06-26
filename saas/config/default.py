@@ -466,6 +466,8 @@ BK_IAM_BACKEND_SVC = env.str("BK_IAM_BACKEND_SVC", default="bkiam-web")
 BK_IAM_SAAS_API_SVC = env.str("BK_IAM_SAAS_API_SVC", default="bkiam-saas-api")
 BK_IAM_ENGINE_SVC = env.str("BK_IAM_ENGINE_SVC", default="bkiam-search-engine")
 BK_APIGW_RESOURCE_DOCS_BASE_DIR = os.path.join(BASE_DIR, "resources/apigateway/docs/")
+# [多租户] 全租户网关需要声明所属租户 ID
+BK_APP_TENANT_ID = "sysetm"
 
 # Requests pool config
 REQUESTS_POOL_CONNECTIONS = env.int("REQUESTS_POOL_CONNECTIONS", default=20)
