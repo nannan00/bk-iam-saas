@@ -119,7 +119,7 @@ class ITSMApplicationTicketProvider(ApplicationTicketProvider):
                 "data": [ActionTable.from_application(data.content).dict()],
             }  # 真正生成申请内容的核心入口点
 
-        # 在params中加上权限获得者, 增加敏感等级提示语句
+        # 在 params 中加上权限获得者，增加敏感等级提示语句
         params["form_data"]["permission_holder"] = data.get_applicants_field()
         params["form_data"]["sensitivity_level"] = data.get_action_sensitivity_level_field()
 
@@ -243,7 +243,7 @@ class ITSMApplicationTicketProvider(ApplicationTicketProvider):
         return "".join(random.choice(characters) for _ in range(length))
 
     def generate_callback_token(self) -> str:
-        """生成回调Token"""
+        """生成回调 Token"""
         return self.__generate_random_string()
 
     def cancel_ticket(self, ticket_id: str):
@@ -254,7 +254,7 @@ class ITSMApplicationTicketProvider(ApplicationTicketProvider):
         """创建系统"""
         itsm.create_system(name=name, code=code, token=token, desc=desc)
 
-    def create_workflow(self, workflow_template_path: str, system_name, system_code, tenant_id="default"):
+    def create_workflow(self, workflow_template_path: str, system_name, system_code, tenant_id=""):
         """创建工作流程"""
         with open(workflow_template_path, "r") as f:
             workflow_template = json.load(f)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-TencentBlueKing is pleased to support the open source community by making 蓝鲸智云-权限中心(BlueKing-IAM) available.
+TencentBlueKing is pleased to support the open source community by making 蓝鲸智云 - 权限中心 (BlueKing-IAM) available.
 Copyright (C) 2017-2021 THL A29 Limited, a Tencent company. All rights reserved.
 Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License.
 You may obtain a copy of the License at http://opensource.org/licenses/MIT
@@ -21,14 +21,14 @@ def list_process() -> List[Dict]:
     """获取审批流程列表"""
     url_path = "/api/v1/system_workflow/list/"
 
-    params = {"system_id": settings.BK_ITSM_V4_SYSTEM_ID}
+    params = {"system_id": settings.ITSM_SYSTEM_TOKEN}
     data = _call_apigw_api(http_get, url_path, data=params)
     return data["results"]
 
 
 def get_process_nodes(workflow_keys: str) -> Dict[Any, Any]:
     """获取审批流程，并根据单据创建者判断是否实例化审批节点"""
-    # workflow_keys可以通过","分割传递多个
+    # workflow_keys 可以通过","分割传递多个
     url_path = "/api/v1/workflows/"
     params: Dict = {"workflow_keys": workflow_keys}
 
