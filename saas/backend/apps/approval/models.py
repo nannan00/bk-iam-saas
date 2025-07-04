@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-TencentBlueKing is pleased to support the open source community by making 蓝鲸智云-权限中心(BlueKing-IAM) available.
+TencentBlueKing is pleased to support the open source community by making 蓝鲸智云 - 权限中心 (BlueKing-IAM) available.
 Copyright (C) 2017-2021 THL A29 Limited, a Tencent company. All rights reserved.
 Licensed under the MIT License (the "License"); you may not use this file except in compliance with the License.
 You may obtain a copy of the License at http://opensource.org/licenses/MIT
@@ -19,7 +19,7 @@ class ApprovalProcessGlobalConfig(BaseModel):
     """审批流程的全局配置：默认流程配置"""
 
     application_type = models.CharField("申请类型", max_length=32, choices=ApplicationType.get_choices(), unique=True)
-    process_id = models.CharField("审批流程ID", max_length=32)
+    process_id = models.CharField("审批流程 ID", max_length=128)
 
     class Meta:
         verbose_name = "审批流程全局配置"
@@ -30,9 +30,9 @@ class ApprovalProcessGlobalConfig(BaseModel):
 class ActionProcessRelation(BaseModel):
     """操作与审批流程的关系"""
 
-    system_id = models.CharField("系统ID", max_length=32)
-    action_id = models.CharField("操作ID", max_length=32)
-    process_id = models.CharField("审批流程ID", max_length=32)
+    system_id = models.CharField("系统 ID", max_length=32)
+    action_id = models.CharField("操作 ID", max_length=32)
+    process_id = models.CharField("审批流程 ID", max_length=128)
     sensitivity_level = models.CharField(
         "敏感等级", max_length=32, choices=SensitivityLevel.get_choices(), default=SensitivityLevel.L1.value
     )
@@ -51,8 +51,8 @@ class ActionProcessRelation(BaseModel):
 class GroupProcessRelation(BaseModel):
     """用户组与审批流程的关系"""
 
-    group_id = models.IntegerField("用户组ID")
-    process_id = models.CharField("审批流程ID", max_length=32)
+    group_id = models.IntegerField("用户组 ID")
+    process_id = models.CharField("审批流程 ID", max_length=128)
 
     class Meta:
         verbose_name = "用户组与审批流程关联"

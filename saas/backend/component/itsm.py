@@ -21,7 +21,7 @@ def list_process() -> List[Dict]:
     """获取审批流程列表"""
     url_path = "/api/v1/system_workflow/list/"
 
-    params = {"system_id": settings.ITSM_SYSTEM_TOKEN}
+    params = {"system_id": settings.ITSM_SYSTEM_ID}
     data = _call_apigw_api(http_get, url_path, data=params)
     return data["results"]
 
@@ -58,7 +58,7 @@ def batch_query_ticket_result(ids: List[str]) -> List[Dict]:
     批量查询单据结果
     """
     url_path = "/api/v1/system_ticket/list/"
-    params = {"system_id": settings.BK_ITSM_V4_SYSTEM_ID, "id__in": ",".join(ids)}
+    params = {"system_id__in": [settings.ITSM_SYSTEM_ID], "id__in": ",".join(ids)}
     data = _call_apigw_api(http_get, url_path, data=params)
     return data["results"]
 
@@ -66,7 +66,7 @@ def batch_query_ticket_result(ids: List[str]) -> List[Dict]:
 def withdraw_ticket(ticket_id: str):
     """撤销单据"""
     url_path = "/api/v1/tickets/revoked/"
-    data = {"system_id": settings.BK_ITSM_V4_SYSTEM_ID, "ticket_id": ticket_id}
+    data = {"system_id": settings.ITSM_SYSTEM_ID, "ticket_id": ticket_id}
     return _call_apigw_api(http_post, url_path, data=data)
 
 

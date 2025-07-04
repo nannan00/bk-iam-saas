@@ -12,7 +12,6 @@ specific language governing permissions and limitations under the License.
 import json
 import random
 import string
-from copy import deepcopy
 from io import BytesIO
 from typing import Dict, List, Optional, Tuple
 
@@ -81,7 +80,7 @@ class ITSMApplicationTicketProvider(ApplicationTicketProvider):
             "workflow_key": process.id,
             "operator": data.applicant_info.username,
             "callback_url": callback_url,
-            "system_id": settings.BK_ITSM_V4_SYSTEM_ID,
+            "system_id": settings.ITSM_SYSTEM_ID,
             "callback_token": callback_token,
             "form_data": {
                 "ticket__title": "",
@@ -209,7 +208,7 @@ class ITSMApplicationTicketProvider(ApplicationTicketProvider):
         if approve_result and end_at is not None:
             status = ApplicationStatus.PASS.value
         elif not approve_result and end_at is not None and ticket_status == TicketStatus.FINISHED.value:
-            status = ApplicationStatus.REJECTED.value
+            status = ApplicationStatus.REJECT.value
         elif ticket_status in [TicketStatus.TERMINATION.value, TicketStatus.REVOKED.value]:
             status = ApplicationStatus.CANCELLED.value
 
@@ -257,22 +256,18 @@ class ITSMApplicationTicketProvider(ApplicationTicketProvider):
     def create_workflow(self, workflow_template_path: str, system_name, system_code, tenant_id=""):
         """创建工作流程"""
         with open(workflow_template_path, "r") as f:
-            workflow_template = json.load(f)
-        result = deepcopy(workflow_template)
+            result = json.load(f)
         result["system"]["name"] = system_name
         result["system"]["code"] = system_code
-        for key in workflow_template["key_mapping"]["form_models"]:
-            result["key_mapping"]["form_models"][f"{tenant_id}__{system_code}__{key}"] = result["key_mapping"][
-                "form_models"
-            ].pop(key)
-        for key in workflow_template["key_mapping"]["workflow_categories"]:
-            result["key_mapping"]["workflow_categories"][f"{tenant_id}__{system_code}__{key}"] = result["key_mapping"][
-                "workflow_categories"
-            ].pop(key)
-        for key in workflow_template["key_mapping"]["workflows"]:
-            result["key_mapping"]["workflows"][f"{tenant_id}__{system_code}__{key}"] = result["key_mapping"][
-                "workflows"
-            ].pop(key)
+        result["key_mapping"]["form_models"] = {
+            f"{tenant_id}__{system_code}__{k}": v for k, v in result["key_mapping"]["form_models"].items()
+        }
+        result["key_mapping"]["workflow_categories"] = {
+            f"{tenant_id}__{system_code}__{k}": v for k, v in result["key_mapping"]["workflow_categories"].items()
+        }
+        result["key_mapping"]["workflows"] = {
+            f"{tenant_id}__{system_code}__{k}": v for k, v in result["key_mapping"]["workflows"].items()
+        }
         json_data = json.dumps(result, indent=2)
         file_obj = BytesIO(json_data.encode("utf-8"))
         filename = f"{system_code}__{tenant_id}.json"

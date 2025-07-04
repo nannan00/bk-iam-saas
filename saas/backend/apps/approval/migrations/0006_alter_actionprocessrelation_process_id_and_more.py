@@ -12,16 +12,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="actionprocessrelation",
             name="process_id",
-            field=models.CharField(max_length=32, verbose_name="审批流程ID"),
+            field=models.CharField(max_length=128, verbose_name="审批流程 ID"),
         ),
         migrations.AlterField(
             model_name="approvalprocessglobalconfig",
             name="process_id",
-            field=models.CharField(max_length=32, verbose_name="审批流程ID"),
+            field=models.CharField(max_length=128, verbose_name="审批流程 ID"),
         ),
         migrations.AlterField(
             model_name="groupprocessrelation",
             name="process_id",
-            field=models.CharField(max_length=32, verbose_name="审批流程ID"),
+            field=models.CharField(max_length=128, verbose_name="审批流程 ID"),
         ),
     ]
